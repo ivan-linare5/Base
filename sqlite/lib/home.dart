@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sqlite/base.dart';
+import 'package:sqlite/base_lista.dart';
 import 'package:sqlite/main.dart';
 
 class Home extends StatefulWidget {
@@ -29,7 +30,7 @@ class _HomeState extends State<Home> {
               onPressed: _select,
               child: const Text('select'),
             ),
-            const SizedBox(height: 10),
+            /*const SizedBox(height: 10),
             ElevatedButton(
               onPressed: _update,
               child: const Text('update'),
@@ -38,14 +39,14 @@ class _HomeState extends State<Home> {
             ElevatedButton(
               onPressed: _delete,
               child: const Text('delete'),
-            ),
+            ),*/
           ],
         ),
       ),
     );
   }
 
-   // Button onPressed methods
+  // Button onPressed methods
   void _insert(BuildContext context) async {
     final name = TextEditingController();
     final age = TextEditingController();
@@ -61,7 +62,7 @@ class _HomeState extends State<Home> {
               const Text('Nombre'),
               TextFormField(
                 controller: name,
-                obscureText: false ,
+                obscureText: false,
                 textAlign: TextAlign.left,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -70,16 +71,16 @@ class _HomeState extends State<Home> {
                     filled: true,
                     fillColor: Colors.white,
                     prefixIcon: const Icon(Icons.person),
-                    errorText: null
-                ),
-                onChanged: (texto) {
-                },
+                    errorText: null),
+                onChanged: (texto) {},
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               const Text('Años(int)'),
               TextFormField(
                 controller: age,
-                obscureText: false ,
+                obscureText: false,
                 textAlign: TextAlign.left,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -88,10 +89,8 @@ class _HomeState extends State<Home> {
                     filled: true,
                     fillColor: Colors.white,
                     prefixIcon: const Icon(Icons.person),
-                    errorText: null
-                ),
-                onChanged: (texto) {
-                },
+                    errorText: null),
+                onChanged: (texto) {},
               ),
             ],
           ),
@@ -123,17 +122,17 @@ class _HomeState extends State<Home> {
     );
   }
 
-
   void _select() async {
     final allRows = await dbHelper.queryAllRows();
-    debugPrint('query all rows:');
+    debugPrint('query all rows:'); //imprime todos los datos en la consola
     for (final row in allRows) {
       debugPrint(row.toString());
     }
+
+    Navigator.of(context).push(
+    MaterialPageRoute(builder: (context) => BaseLista(data: allRows)),
+  );
   }
-
-
-
 
   void _update() async {
     // row to update
@@ -152,6 +151,4 @@ class _HomeState extends State<Home> {
     final rowsDeleted = await dbHelper.delete(id);
     debugPrint('deleted $rowsDeleted row(s): row $id');
   }
-
 }
-
